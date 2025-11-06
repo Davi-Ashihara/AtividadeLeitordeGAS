@@ -1,0 +1,69 @@
+/*#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define MQ135_PIN A0
+#define BUZZER_PIN 8
+#define LED_VERDE 9
+#define LED_VERMELHO 10
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+int limiteGas = 400; // limite em PPM (partes por milhão)
+
+void setup() {
+  pinMode(MQ135_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(LED_VERDE, OUTPUT);
+  pinMode(LED_VERMELHO, OUTPUT);
+
+  Serial.begin(9600); // para debug
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Detector de Gas");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  // Lê o valor analógico (0-1023)
+  int valorAnalogico = analogRead(MQ135_PIN);
+  
+  // CALIBRAÇÃO REAL baseada nos testes:
+  // 0-100 PPM = ~400 analog
+  // 500 PPM = ~400 analog  
+  // 1000 PPM = ~490 analog
+  // Sensor está INVERTIDO e com range pequeno!
+  
+  // Mapeia invertido: quanto maior analog, maior PPM
+  int leituraGas = map(valorAnalogico, 350, 550, 0, 1000);
+  
+  // Garante que fica entre 0 e 1000
+  if (leituraGas < 0) leituraGas = 0;
+  if (leituraGas > 1000) leituraGas = 1000;
+  
+  lcd.setCursor(0, 0);
+  lcd.print("Gas: ");
+  lcd.print(leituraGas);
+  lcd.print(" PPM   ");
+
+    //envia info para o java a cada ciclo
+    Serial.print("GAS:");
+    Serial.println(leituraGas);
+
+  if (leituraGas > limiteGas) {
+    digitalWrite(LED_VERMELHO, HIGH);
+    digitalWrite(LED_VERDE, LOW);
+    tone(BUZZER_PIN, 1000); // Toca som de 1000Hz
+    lcd.setCursor(0, 1);
+    lcd.print("Vazamento !!!   ");
+  } else {
+    digitalWrite(LED_VERMELHO, LOW);
+    digitalWrite(LED_VERDE, HIGH);
+    noTone(BUZZER_PIN); // Para o som
+    lcd.setCursor(0, 1);
+    lcd.print("Seguro          ");
+  }
+
+  delay(500);
+}*/
